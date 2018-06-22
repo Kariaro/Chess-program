@@ -26,7 +26,7 @@ public class ChessBoard {
 	public static final int KNIGHT = 3;
 	public static final int ROOK   = 4;
 	public static final int PAWN   = 5;
-	public static final int NONE   = 6; // TODO: Make this the standard value for a empty square
+	public static final int NONE   = 6; // TODO: Make this the standard value for a empty square 
 	
 	/* GLOBAL TEAMS */
 	public static final int WHITE = 0;
