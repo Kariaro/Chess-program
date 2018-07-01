@@ -740,8 +740,8 @@ public class ChessBoard {
         int[] di_1 = GetDiagonal_1(x, y, board);
         
         for(int i = 0; i < 8; i++) {
-            if(di_0[i] > 0 && (d0 + i) > -1 && (d0 + i) < 7) moves[i + (d0 + i) * 8] = 1;
-            if(di_1[i] > 0 && (d1 - i) > -1 && (d1 - i) < 7) moves[i + (d1 - i) * 8] = 1;
+            if(di_0[i] > 0 && (d0 + i) > -1 && (d0 + i) < 8) moves[i + (d0 + i) * 8] = 1;
+            if(di_1[i] > 0 && (d1 - i) > -1 && (d1 - i) < 8) moves[i + (d1 - i) * 8] = 1;
         }
         return moves;
     }
@@ -756,8 +756,8 @@ public class ChessBoard {
         for(int i = 0; i < 8; i++) {
             if(hori[i] > 0) moves[i + y * 8] = 1;
             if(vert[i] > 0) moves[x + i * 8] = 1;
-            if(di_0[i] > 0 && (d0 + i) > -1 && (d0 + i) < 7) moves[i + (d0 + i) * 8] = 1;
-            if(di_1[i] > 0 && (d1 - i) > -1 && (d1 - i) < 7) moves[i + (d1 - i) * 8] = 1;
+            if(di_0[i] > 0 && (d0 + i) > -1 && (d0 + i) < 8) moves[i + (d0 + i) * 8] = 1;
+            if(di_1[i] > 0 && (d1 - i) > -1 && (d1 - i) < 8) moves[i + (d1 - i) * 8] = 1;
         }
         return moves;
     }
