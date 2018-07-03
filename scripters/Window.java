@@ -13,14 +13,12 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private final Random random = new Random(0);
 	
 	public ChessBoard board;
 	
@@ -29,7 +27,6 @@ public class Window extends JFrame {
 	public MouseAdapter    Mouse;
 	public boolean flip_board = false;
 	public boolean running  = false;
-	public boolean computer = false;
 	
 	public Window(ChessBoard board) {
 		setTitle("Brute Chess 2");
@@ -116,7 +113,6 @@ public class Window extends JFrame {
 						for(Integer i : moves) {
 							if(id == (i & 63)) {
 								Move(Click, id);
-								//System.out.println("Finished 1\n" + (id & 7) + ", " + (id >> 3));
 								if(!board.IsPromoting()) Click = -1;
 								break;
 							}
@@ -165,8 +161,6 @@ public class Window extends JFrame {
 			public int x(int i) { return (i -  3) >> 6; }
 			public int y(int i) { return (i - 26) >> 6; }
 			public void Move(int SQ, int NSQ) {
-				if(computer) return;
-				
 				board.Move(SQ, NSQ);
 				if(board.IsPromoting()) {
 					moves = board.CurrentMoves.get(Click);
@@ -186,42 +180,7 @@ public class Window extends JFrame {
 	
 	public int Click = -1;
 	
-	public long currentSeed = 0;
-	public boolean init = false;
-	public long LAST = 0;
-	public int mo = 0;
 	public void render() {
-		if(!init) {
-			LAST = System.currentTimeMillis();
-			init = true;
-			random.setSeed(currentSeed);
-			play(0);
-			computer = true;
-		}
-		if(!ThreadRunning) {
-			String type = "";
-			switch(board.GetStatus()) {
-				case ChessBoard.STALEMATE: type = "Stalemate"; break;
-				case ChessBoard.CHECKMATE: type = "Checkmate"; break;
-				case ChessBoard.RESIGN   : type = "Resign"; break;
-				case ChessBoard.FIFTY_MOVE_RULE: type = "Fifty Move Rule"; break;
-				case ChessBoard.THREEFOLD_REPETITION: type = "Threefold repetition"; break;
-				case ChessBoard.TIME_CONTROL: type = "TimeControl"; break;
-				default: type = "Unknown"; break;
-			}
-			//System.out.println("Game Won By [" + (board.GetTurn() == Board.WHITE ? "WHITE":"BLACK") + "]:[" + board.GetMove() + "] By {" + type + "}");
-			mo += board.GetMove();
-			board.ResetBoard();
-			
-			random.setSeed(++currentSeed);
-			play(0);
-		}
-		if(System.currentTimeMillis() - LAST > 1000) {
-			LAST += 1000;
-			System.out.println("Moves / second == " + mo);
-			mo = 0;
-		}
-		
 		Graphics2D g = (Graphics2D)bs.getDrawGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
@@ -343,49 +302,6 @@ public class Window extends JFrame {
 			
 			g.drawImage(Images[piece], 3 + x * 64, 26 + y * 64, null);
 		}
-	}
-	
-	private boolean RestartGame = false;
-	private boolean ThreadRunning = false;
-	public void play(final int ms) {
-		if(ThreadRunning) return;
-		ThreadRunning = true;
-		
-		new Thread(new Runnable() {
-			public void run() {
-				int i = 0;
-				for(;i < 1024; i++) {
-					if(board.GetStatus() != ChessBoard.PLAYING) break;
-					
-					DoRandomMove();
-					
-					try {
-						Thread.sleep(ms);
-					} catch(Exception e) {
-						e.printStackTrace();
-					}
-				}
-				
-				ThreadRunning = false;
-				RestartGame = true;
-			}
-		}).start();
-	}
-	
-	public void DoRandomMove() {
-		if(board.GetStatus() != ChessBoard.PLAYING) return;
-		Integer[] squares = board.CurrentMoves.keySet().toArray(new Integer[1]);
-		Integer in = squares[(random.nextInt() & 63) % squares.length];
-		if(in == null) return;
-		
-		int square = in;
-		
-		List<Integer> moves = board.CurrentMoves.get(square);
-		int move = moves.get((random.nextInt() & 63) % moves.size()) & 63;
-		
-		board.Move(square, move);
-		
-		//System.out.println(UtilsText.ToCoord(square) + "->" + UtilsText.ToCoord(move) + ", " + board.GetMove());
 	}
 	
 	public BufferStrategy bs;
