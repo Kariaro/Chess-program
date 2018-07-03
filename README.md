@@ -19,20 +19,12 @@ You start by create a instance of the class ChessBoard.
 ChessBoard chess = new ChessBoard();
 /* To setup the board you can use a string like this
  * "rnbqkbnrpppppppp................................PPPPPPPPRNBQKBNR"
- * 
  * r = Rook, n = Knight, b = Bishop, q = Queen, k = King, p = Pawn
  * 
- * The dots are blank spaces, you can use whatever character
- * you want except "rnbqkpRNBQKP"
- * 
- * The lowercase characters represents the white team
- * and the uppercase the black team.
+ * All characters except "rnbqkpRNBQKP" will be empty squares.
+ * Lowercase is the white team and uppercase, the black team.
  *
- *
- * You can use this method with a empty string for the
- * default setup or with a string for a custom game.
- * 
- * This method is needed to initialize the game.
+ * If you do not specify a string the default chess setup will be used.
  */
 ResetBoard();
 ```
@@ -46,6 +38,7 @@ You can do whatever you want that follows the rules of chess.
  *
  * On a empty board. If a i have the Rook stand on a1 the possible moves
  * by the Rook will be { a2, a3, a4, a5, a6, a7, a8, b1, c1, d1, e1, f1, h1 }
+ */
 Map<Integer, List<Integer>> moves = chess.CurrentMoves;
 
 // To visualize the moves you can use a couple of methods from UtilsText
@@ -137,9 +130,12 @@ or by using the class UtilsText.java with the method PrintBoard.
 UtilsText.PrintBoard(chess.board);
 
 /* The UI Window.java uses resembels the looks of lichess.org
- * You can use this class but its made to be more of a template
- * than an accual file for rendering chess.
- * I whould strongly argue that you create your own render.
+ *
+ * I recommend that you do not use this class as it is not intended to be
+ * a part of the source code and that you instead create your own version of it.
+ * 
+ * This class is a Template showing how i made a program GUI using the
+ * ChessBoard class
  */
 Window window = new Window(chess);
 window.start();
