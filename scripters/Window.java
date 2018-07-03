@@ -268,42 +268,6 @@ public class Window extends JFrame {
 		bs.show();
 	}
 	
-	public void DrawPieces(Graphics2D g) {
-		Color[] C = new Color[] {
-			new Color(0xF0D9B5), // Light Squares
-			new Color(0xB58863), // Dark  Squares
-			
-			new Color(0x829769), // Light Selected
-			new Color(0x646F40), // Dark  Selected
-			
-			new Color(0xAEB187),
-			new Color(0x84794E),
-		};
-		
-		for(int i = 0; i < 64; i++) {
-			int x = i & 7, y = i >> 3;
-			if(flip_board) y = (y - 7) * -1;
-			
-			g.setColor(C[(i + (i / 8)) & 1]);
-			g.fillRect(x * 64 + 3, y * 64 + 26, 64, 64);
-		}
-		
-		for(int i = 0; i < 64; i++) {
-			int x = i & 7, y = 7 - (i >> 3);
-			if(flip_board) y = (y - 7) * -1;
-			
-			int piece = board.board[x + (i >> 3) * 8] & 15;
-			if(piece == ChessBoard.NONE) continue;
-			
-			if((piece & ChessBoard.TEAM) > 0) {
-				piece &= 7;
-				piece += 6;
-			}
-			
-			g.drawImage(Images[piece], 3 + x * 64, 26 + y * 64, null);
-		}
-	}
-	
 	public BufferStrategy bs;
 	public void paint(Graphics g) {
 		if(bs == null) {
