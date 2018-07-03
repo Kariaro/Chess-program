@@ -109,6 +109,24 @@ public void DoRandomMove() {
 }
 ```
 
+### Status
+
+The very last thing i made was that i implemented a Status variable wich indicates whats going on right now.
+
+``` java
+/* This will return one of the following
+ * PLAYING              : This is default state returned
+ * STALEMATE            : The king is not attacked no valid moves exist
+ * CHECKMATE            : The king is attacked with no valid moves to make
+ * FIFTY_MOVE_RULE      : Fifty moves without any captures or pawn moves
+ * THREEFOLD_REPETITION : Three identical moves has been made by both players.
+ */
+int Status = chess.GetStatus();
+
+// This will return true if one of the pawns has reached it's last rank.
+boolean promote = chess.IsPromoting();
+```
+
 ## GUI
 
 You can either use the class Window.java i with your own set of pieces
