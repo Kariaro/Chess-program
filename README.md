@@ -49,8 +49,7 @@ or by using the class UtilsText.java with the method PrintBoard.
  */
 UtilsText.PrintBoard(chess.board);
 
-// I decided to include my window class.
-// i resembels how lichess.org looks
+// The UI Window.java uses resembels the looks of lichess.org
 Window window = new Window(chess);
 window.start();
 ```
