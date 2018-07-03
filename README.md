@@ -4,7 +4,7 @@ A small chess engine calculating the board and what moves a piece can make
 This program does not include the Window class for the GUI.
 ChessBoard.java is a engine calculating all the moves the pieces can make.
 
-### How to use
+## How to use
 
 First you create a instance of ChessBoard.
 ``` java
@@ -29,14 +29,15 @@ ChessBoard chess = new ChessBoard();
 ResetBoard();
 ```
 
-### GUI
+## GUI
 
 You can either use the class Window.java i with your own set of pieces
 or by using the class UtilsText.java with the method PrintBoard.
 
 ``` java
-/* This is gonna print the board to the console. Its gonna look like this.
+/* This is gonna print the board to the console.
  *
+ * The output will look like this.
  * r n b q k b n r
  * p p p p p p p p
  * ´ ´ ´ ´ ´ ´ ´ ´
@@ -48,7 +49,8 @@ or by using the class UtilsText.java with the method PrintBoard.
  */
 UtilsText.PrintBoard(chess.board);
 
-// Or you do the Window class wich will be more like the layout of lichess.org
+// I decided to include my window class.
+// i resembels how lichess.org looks
 Window window = new Window(chess);
 window.start();
 ```
