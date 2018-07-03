@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /** Made by Victor Axberg
   * Last edited 2018-07-03
@@ -24,14 +23,8 @@ import java.util.Random;
   * Github: https://github.com/Kariaro
   */
 public class ChessBoard {
-	public static final void main(String[] args) {
-		System.out.println("MAIN: CHESSBOARD\n");
-		new ChessBoard();
-	}
-	
 	/* PRIVATE GLOBALS */
 	private static final String BOARD_CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+=";
-	private static final Random RANDOM = new Random(0);
 	
 	/* GLOBAL PRESETS */
 	public static final String CHESS_BOARD = "rnbqkbnrpppppppp                                PPPPPPPPRNBQKBNR";
@@ -91,87 +84,6 @@ public class ChessBoard {
 	
 	public ChessBoard() {
 		CurrentMoves = new HashMap<Integer, List<Integer>>();
-		
-		SetBoard(
-			"        " +
-			"        " +
-			"        " +
-			"        " +
-			"        " +
-			"        " +
-			"Q  p    " +
-			"    k   "
-		);
-		ResetBoard();
-		/** 000 0 0 0
-		  * |   | | |
-		  * |   | | |
-		  * |   | | ^----------< has moved once or more
-		  * |   | ^------------< was moved this turn
-		  * |   ^--------------< team
-		  * ^------------------< piece ID
-		  */
-		
-		Window window = new Window(this);
-		window.start();
-		
-		
-		/*String ID = GetBoardID();
-		System.out.println("Current Board: " + ID);
-		
-		UtilsText.PrintMoveMap(CurrentMoves);
-		
-		for(int i = 0; i < 2048; i++) {
-			DoRandomMove();
-			UtilsText.PrintBoard(board);
-			UtilsText.PrintMoveMap(CurrentMoves);
-		}*/
-	}
-	
-	private boolean ThreadRunning = false;
-	public void play(final int ms) {
-		if(ThreadRunning) return;
-		ThreadRunning = true;
-		
-		new Thread(new Runnable() {
-			public void run() {
-				int i = 0;
-				for(;i < 1024; i++) {
-					if(Status != PLAYING) break;
-					
-					DoRandomMove();
-					//UtilsText.PrintBoard(board);
-					//UtilsText.PrintMoveMap(CurrentMoves);
-					
-					try {
-						Thread.sleep(ms);
-					} catch(Exception e) {
-						e.printStackTrace();
-					}
-				}
-				
-				ThreadRunning = false;
-				if(i > 1023) {
-					Status = -1;
-				}
-			}
-		}).start();
-	}
-	
-	public void DoRandomMove() {
-		if(Status != PLAYING) return;
-		Integer[] squares = CurrentMoves.keySet().toArray(new Integer[1]);
-		Integer in = squares[(RANDOM.nextInt() & 63) % squares.length];
-		if(in == null) return;
-		
-		int square = in;
-		
-		List<Integer> moves = CurrentMoves.get(square);
-		int move = moves.get((RANDOM.nextInt() & 63) % moves.size()) & 63;
-		
-		Move(square, move, board);
-		
-		//System.out.println(UtilsText.ToCoord(square) + "->" + UtilsText.ToCoord(move) + ", " + MOVE);
 	}
 	
 	public Map<Integer, List<Integer>> CalculateValidMoves(String ID, int team) {
@@ -573,7 +485,6 @@ public class ChessBoard {
 		CurrentMoves.putAll(CalculateValidMoves(GetBoardID(), 0));
 	}
 	
-	public void SetSeed(long seed) { RANDOM.setSeed(seed); }
 	public int GetStatus() { return Status; }
 	public void Resign(int team) {
 		Status = RESIGN;
