@@ -116,7 +116,7 @@ The very last thing i made was that i implemented a Status variable wich indicat
 ``` java
 /* This will return one of the following
  * PLAYING              : This is default state returned
- * STALEMATE            : The king is not attacked no valid moves exist
+ * STALEMATE            : The king is not attacked but no valid moves exist
  * CHECKMATE            : The king is attacked with no valid moves to make
  * FIFTY_MOVE_RULE      : Fifty moves without any captures or pawn moves
  * THREEFOLD_REPETITION : Three identical moves has been made by both players.
