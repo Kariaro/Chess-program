@@ -5,22 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Made by Victor Axberg
+/** Copyright (c) 2018 Victor Axberg
   * Last edited 2018-07-03
-  * 
-  * I like challanges and Chess is definetly one of them.
-  * Chess is complicated game with a set of complicated rules.
-  * Not that they are hard to comprehend but to recreate in a
-  * programable way.
-  * 
-  * I hope you can learn or find ways to improve from my code.
-  * 
-  * Everything in this file is open source. You can copy whatever
-  * you want and you do not need to thank me or link anything about
-  * me.
-  * 
-  * But if you want too, just put my Github link as a notice about it.
-  * Github: https://github.com/Kariaro
   */
 public class ChessBoard {
 	/* PRIVATE GLOBALS */
