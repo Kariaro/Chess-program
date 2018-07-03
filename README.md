@@ -50,5 +50,5 @@ UtilsText.PrintBoard(chess.board);
 
 // Or you do the Window class wich will be more like the layout of lichess.org
 Window window = new Window(chess);
-window.start
+window.start();
 ```
