@@ -60,7 +60,60 @@ System.out.println("UtilsText.PrintMoveMap");
 UtilsText.PrintMoveMap(moves);
 
 System.out.println("UtilsText.PrintMoves");
-UtilsText.PrintMoves(chess.GetMoves(<x>, <y>, chess.board), "0123456789");
+UtilsText.PrintMoves(chess.GetMoves(x, y, chess.board), "0123456789");
+```
+
+### Doing a random move
+
+Well that header says it all.
+I made a litle code to do random moves and with that i check the speed of my program.
+This code completes around 8000 moves a second on my computer.
+
+``` java
+// I created this check just because its gonna get weird with more than
+// one thread doing moves at a time.
+private Random random = new Random();
+private boolean ThreadRunning = false;
+public void play(final int ms) {
+    if(ThreadRunning) return;
+    ThreadRunning = true;
+    
+    new Thread(new Runnable() {
+        public void run() {
+            int max_moves = 1024;
+            for(int i = 0; i < max_moves; i++) {
+                if(chess.GetStatus() != ChessBoard.PLAYING) break;
+                
+                DoRandomMove();
+                // UtilsText.PrintBoard(chess.board);
+                // UtilsText.PrintMoveMap(chess.CurrentMoves);
+                try {
+                    Thread.sleep(ms);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            
+            ThreadRunning = false;
+        }
+    }).start();
+}
+
+public void DoRandomMove() {
+    if(chess.GetStatus() != ChessBoard.PLAYING) return;
+    Integer[] squares = chess.CurrentMoves.keySet().toArray(new Integer[1]);
+    Integer in = squares[(random.nextInt() & 63) % squares.length];
+    if(in == null) return;
+    
+    int square = in;
+    
+    List<Integer> moves = chess.CurrentMoves.get(square);
+    int move = moves.get((random.nextInt() & 63) % moves.size()) & 63;
+    
+    chess.Move(square, move);
+    
+    //System.out.println(UtilsText.ToCoord(square) + "->" + UtilsText.ToCoord(move) + ", " + chess.GetMove());
+}
 ```
 
 ## GUI
@@ -83,7 +136,11 @@ or by using the class UtilsText.java with the method PrintBoard.
  */
 UtilsText.PrintBoard(chess.board);
 
-// The UI Window.java uses resembels the looks of lichess.org
+/* The UI Window.java uses resembels the looks of lichess.org
+ * You can use this class but its made to be more of a template
+ * than an accual file for rendering chess.
+ * I whould strongly argue that you create your own render.
+ */
 Window window = new Window(chess);
 window.start();
 ```
